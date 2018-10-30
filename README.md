@@ -4,7 +4,6 @@ Dans ce DM, on cherche à réduire le problème Triangles vers le problème SAT 
 
 
 Pour lancer le programme, lancer le script bash avec les commandes suivantes : 
-If you use Linux, run : 
 
     $ cd code/
     $ ./triangle2SAT.sh
