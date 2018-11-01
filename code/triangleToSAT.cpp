@@ -4,9 +4,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-
 #include "all.h" 
-#include "graphs/G30.c"
+#include "graph.c"    
 using namespace std;
 
 int **X;
@@ -31,6 +30,21 @@ int getNbClauses() {
 
 string firstConstraint() {
     string formule = "c\nc CONTRAINTE 1 : Un sommet est le successeur de son successeur\nc\n";
+    for(int u=0; u < orderG(); u++) {
+        for(int v=0; v < orderG(); v++) {
+            for(int w=0; w < orderG(); w++) {
+                if( (u != v && u != w && v != w) && (are_adjacent(u,v) != 0 && are_adjacent(v,w) != 0 && are_adjacent(w,u) != 0 ) ) {
+                    std::ostringstream ss1;
+                    std::ostringstream ss2;
+                    std::ostringstream ss3;
+                    ss1 << X[u][v];
+                    ss2 << X[u][w];
+                    ss3 << X[w][u];
+                    formule += "-" + ss1.str() + " -" + ss2.str() + " -" + ss3.str() + " 0\n";
+                }
+            }
+        }
+    }
     return formule;
 }
 
@@ -92,7 +106,7 @@ int main(int argc, char const *argv[]){
     // Création du fichier
     ofstream file("sat.cnf");
 
-    file << "p cnf " << orderG()*orderG() << " " << getNbClauses() << endl;
+    file << "p cnf " << orderG()*orderG()<< " " << getNbClauses() << endl;
     file << firstConstraint();
     file << secondConstraint();
     file << thirdConstraint();

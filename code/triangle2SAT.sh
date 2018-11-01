@@ -15,15 +15,15 @@ while [[ ! -e graphs/$graph.c ]]; do
 done
 
 # Copie du graphe choisi (renommé) dans le répertoire courant 
-cp graphs/$graph.c ./graph.c
-
+cp graphs/$graph.c ./
+mv $graph.c graph.c #Renommage du fichier 
 make clean #Nettoyage des fichiers compilés
 make # Compilation du programme
 rm -f graph.c # Suppression de la copie du graphe
 TEST_OUT=$(./triangleToSAT)
 
 # Lancer le solveur glucose
-echo $TEST_OUT | grep -v 'Usage' && ./glucose-syrup/simp/glucose -model sat.cnf > resultat.txt
+echo $TEST_OUT | grep -v 'Usage' && ./glucose-syrup-4.1/simp/glucose -model sat.cnf > resultat.txt
 
 #Nettoyage des fichiers compilés
 make clean
