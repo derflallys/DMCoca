@@ -38,9 +38,9 @@ string firstConstraint() {
                     std::ostringstream ss2;
                     std::ostringstream ss3;
                     ss1 << X[u][v];
-                    ss2 << X[u][w];
+                    ss2 << X[v][w];
                     ss3 << X[w][u];
-                    formule += "-" + ss1.str() + " -" + ss2.str() + " -" + ss3.str() + " 0\n";
+                    formule += "-" + ss1.str() + " -" + ss2.str() + " "+ss3.str() + " 0\n";
                 }
             }
         }
