@@ -6,8 +6,6 @@ INSTALL_DIR = /usr/bin
 
 all : $(EXEC_NAME)
 
-
-
 $(EXEC_NAME) : $(OBJ_FILES)
 	$(CC) -o $(EXEC_NAME) $(OBJ_FILES)
 

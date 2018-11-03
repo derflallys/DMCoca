@@ -6,6 +6,7 @@
 #include <sstream>
 #include "all.h" 
 #include "graph.c"    
+
 using namespace std;
 
 int **X;
