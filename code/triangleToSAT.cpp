@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include "all.h" 
+
 #include "graph.c"    
 
 using namespace std;
@@ -17,11 +18,20 @@ int getNbClauses() {
     /*
     * Les 3 clauses utilisent les mêmes boucles
     */
-    for(int i=0; i < orderG(); i++) {
-        for(int j=0; j < orderG(); j++) {
-            for(int k=0; k < orderG(); k++) {
-                if(i != j && i != k && j != k) {
-                    nbclauses+=3;
+    for(int u=0; u < orderG(); u++) {
+        for(int v=0; v < orderG(); v++) {
+            for(int w=0; w < orderG(); w++) {
+                //Contrainte 1
+                if( (u != v && u != w && v != w) && (are_adjacent(u,v) != 0 && are_adjacent(v,w) != 0 && are_adjacent(w,u) != 0 ) ) {
+                    nbclauses++;
+                }
+                //Contrainte 2
+                if( (u != v && u != w && v != w) && (are_adjacent(u,v) != 0 && are_adjacent(v,w) != 0 && are_adjacent(w,u) != 0 ) ) {
+                    nbclauses++;
+                }
+                //Contrainte 3
+                if( (u != v && u != w && v != w) && (are_adjacent(u,v) != 0 && are_adjacent(v,w) != 0 && are_adjacent(w,u) != 0 ) ) {
+                    nbclauses++;   
                 }
             }
         }

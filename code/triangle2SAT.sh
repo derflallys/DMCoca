@@ -16,21 +16,24 @@ done
 
 # Copie du graphe choisi (renommé) dans le répertoire courant 
 cp graphs/$graph.c ./
-mv $graph.c graph.c #Renommage du fichier 
+
+#Renommage du fichier
+mv $graph.c graph.c 
 
 make clean #Nettoyage des fichiers compilés
 make # Compilation du programme
-rm -f graph.c # Suppression de la copie du graphe
 
 #Lance le programme qui génère le fichier cnf
 ./triangleToSAT
 
+rm -f graph.c # Suppression de la copie du graphe
+
 #compilation de glucose
-make clean -C glucose-syrup-4.1/simp/
-make -C glucose-syrup-4.1/simp/
+#make clean -C glucose-syrup-4.1/simp/
+#make -C glucose-syrup-4.1/simp/
 
 # Lancer le solveur glucose
-./glucose-syrup-4.1/simp/glucose sat.cnf resultat.txt
+./glucose-syrup-4.1/simp/glucose sat.cnf > resultat.txt
 
 #Nettoyage des fichiers compilés
 make clean
