@@ -127,7 +127,7 @@ int main(int argc, char const *argv[]){
     // Création du fichier
     ofstream file("sat.cnf");
 
-    file << "p cnf " << orderG()*orderG()<< " " << getNbClauses() << endl;
+    file << "p cnf " << orderG()*orderG()*2<< " " << getNbClauses() << endl;
     file << firstConstraint();
     file << secondConstraint();
     file << thirdConstraint();

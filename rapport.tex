@@ -1,0 +1,154 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+\title{DM Complexité et Calculabilité}
+\author{Guillaume NEDELEC et Alfred Aboubacar SYLLA }
+\date{Pour le 5 Novembre 2018}
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{codeStyle}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=codeStyle}
+
+\begin{document}
+
+\maketitle
+
+\section{Définition du problème}
+
+Soit \textit{$G = (V, E)$} un graphe non-orienté. Un triangle \textit{$T$} dans \textit{$G$} est une clique de taille 3,  autrement dit un ensemble \textit{$T = \{ u, v, w \}$}, tel que \textit{$u, v, w \in V$} sont distincts et \textit{$\{(u, v),(v, w),(w, u)\} \subseteq E$}.
+
+Une partition de \textit{$G$} en triangles est une partition \textit{$V = T_{1} \: \cup \: T_{2} \: \cup \: . . . \: \cup \: T_{k}$} des sommets de \textit{$G$} telle que chaque \textit{$T_{i}$} est un triangle.
+
+\smallbreak
+
+\textbf{Problème} \textbf{\textit{Triangles}}
+
+\textbf{Entrée} : Un graphe non-orienté G.
+
+\textbf{Sortie} : Est-ce que G possède une partition en triangles ?
+
+\section{Degré 3 }
+
+Vous allez montrer que le problème $Triangles$ peut être résolu en temps $O(|V| + |E|)$ (linéaire) si le degré de chaque sommet est au plus 3. Le degré d’un sommet est le nombre de voisins.
+\bigbreak
+
+\noindent1. Que peut-on dire si $G$ contient un sommet de degré 1 ?
+\smallbreak
+\noindent \textbf{REPONSE :} Si $G$ contient un sommet de degré 1, alors il ne forme pas de triangle avec d'autres sommets. On peut en déduire que $G$ ne possède pas de partition en triangles.
+\bigbreak
+
+\noindent2. Supposez que $v$ est un sommet de degré 2. Montrez qu’on peut soit répondre “non” tout de suite, ou enlever des sommets de $G$, en obtenant $G_{0}$ tel que le $G$ est instance positive de $Triangles$ ssi $G_{0}$ l’est.
+\smallbreak
+\noindent \textbf{REPONSE :} Si le sommet $v$ est de degré 2, on peut repondre "non" tout de suite si et seulement les 2 sommets adjacents à $v$ ne sont pas reliés par une arête entre eux. Dans ce cas si on enleve des sommets de $G$ (différent de $v$ et de ses voisins), $G_{0}$ ne pourra pas être une instance positive de $Triangles$ étant donné que $v$ ne forme pas de triangle avec ses 2 voisins.
+\bigbreak
+
+\noindent3. On suppose maintenant que tous les sommets ont degré 3.
+Les 4 cas de la figure ci-dessus indiquent quel est le voisinage possible du sommet $v$. Raisonnez comme au point précédent
+\smallbreak
+\noindent \textbf{REPONSE :} \smallbreak
+\noindent\textbf{Graphe 1} : Les sommets adjacents de $v$ ne forment pas un triangle avec $v$. Donc même si ils forment des triangles avec d'autres voisins ou qu'on les retire, $v$ ne fera partie d'aucun triangle et donc $G_{1}$ sera une instance négative de $Triangles$.
+\smallbreak
+\noindent \textbf{Graphe 2} : Le sommets $v$ a deux sommets adjacents reliés par une arête. Ils forment donc un triangle. Pour vérifier que le reste du graphe est partitionné en triangles, on fait la même vérification sur le $3^{ieme}$ sommet adjacent à $v$ avec ses 2 autres voisins. Si il forme un triangle, alors le graphe $G_{2}$ est une instance positive sinon non.
+\smallbreak
+\noindent \textbf{Graphe 3}: Le graphe $G_{3}$ n'est pas une instance positive car les sommets adjacents de $v$ forment 2 triangles où $v$ appartient aux deux triangles. Les sommets supposés de degré 3 au maximum ne peuvent donc pas former d'autres triangles afin de n'inclure $v$ que dans 1. On en déduit donc que $G_{3}$ est une instance négative de $Triangles$ 
+\smallbreak
+\noindent \textbf{Graphe 4}: En suivant le même raisonnement qu'avec le graphe $G_{3}$, $G_{4}$ est une instance négative de $Triangles$ car tous les voisins de $v$ forme des triangles avec $v$, ne formant pas des triangles disjoints. De plus tous les voisins de $v$ sont de degré 3 et ne peuvent donc pas former d'autres triangles.
+\bigbreak
+
+\noindent4. Proposez un algorithme linéaire pour résoudre $Triangles$ sur les graphes de degré maximal au plus 3.
+\smallbreak
+\noindent \textbf{REPONSE :}
+\smallbreak
+\begin{lstlisting}[caption=Algortihme Triangles]
+G = (V,E);
+triangle = vrai;
+i = 0;
+Tant que (triangle == vrai ET i < |V|) {
+    v = V[i];
+    if (v.degre == 1 OU v.degre == 0) {
+        triangle = faux;
+    }
+    else if (v.degre = 2) {
+        Si il n'existe pas d'aretes entre les 2 voisins de v {
+          triangle = faux;
+        }
+    }
+    else if (v.degre = 3){
+        Si il existe aucune OU plus d'une arete entre les 3 voisins de v {
+            triangle = faux;
+        }
+    }
+    i++;
+}
+retourner triangle;
+\end{lstlisting}
+\bigbreak
+La compléxité de cet algorithme est de $O(|V| + |E|)$, cette complexité est linéaire.
+\bigbreak
+
+\section{Réduction de $Triangles$ vers SAT}
+
+Afin d'effectuer une réduction du problème $Triangles$ vers $SAT$, nous avons utiliser des variables booléennes de la forme $x_{u,v}$.
+Nous allons donner une orientation à chaque triangle, ce qui permet de définir un “successeur” pour chaque noeud. 
+
+Par exemple, si \{1, 3, 6\} forme un triangle, alors une orientation possible est 3, 1, 6, le "successeur" de 1 étant 6, le “successeur” de 6 étant 3, et le “successeur” de 3 étant 1. 
+La variable $x_{u,v}$ est vraie si v est le “successeur” de u (dans le sens décrit précédemment).
+
+Pour effectuer la réduction nous avons donc découper le problèmes en plusieurs contraintes dont voici les formules :
+
+\bigbreak
+
+1. Un sommet est le successeur de son successeur 
+
+$$ \bigwedge\limits_{u,v,w \in V; u \ne v \ne w} (\neg x_{u,v} \vee \neg x_{v,w} \vee x_{w,u}) $$
+\textbf{Complexité : $O(|V|^3 + |E|^3)$}
+\bigbreak
+
+2. Pour chaque sommet $u \in V$, il n'existe qu'un sommet $v \in V$ où $v$ est successeur de $u$
+
+$$ \bigwedge\limits_{u,v,w \in V; u \ne v \ne w} (\neg x_{u,v} \vee \neg x_{u,w}) $$
+\textbf{Complexité : $O(|V|^3 + |E|^3)$}
+\bigbreak
+
+3. Pour chaque sommet $u \in V$, il n'existe qu'un sommet $v \in V$ où $u$ est successeur de $v$
+
+$$ \bigwedge\limits_{u,v,w \in V; u \ne v \ne w} (\neg x_{u,v} \vee \neg x_{w,v}) $$
+\textbf{Complexité : $O(|V|^3 + |E|^3)$}
+\bigbreak
+
+4. Avec $n$ le nombre de sommet de $G$, Si $n \bmod 3 \ne 0$ alors $G$ ne possède pas une partition en triangles 
+\smallbreak
+\noindent\textbf{Complexité : Constante}
+
+
+\bigbreak
+\noindent La complexité totale de la formule est donc :  \textbf{$O(3|V|^3 + 3|E|^3)$} soit \textbf{$O(|V|^3 + |E|^3)$}
+
+\smallbreak
+\noindent\textbf{CONCLUSION :} Cette réduction est donc une réduction polynomiale.
+\end{document}
