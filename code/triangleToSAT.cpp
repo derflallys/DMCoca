@@ -36,6 +36,9 @@ int getNbClauses() {
             }
         }
     }
+     if(orderG()%3 != 0) {
+        nbclauses+=2;   
+    }
     return nbclauses;
 }
 
@@ -95,6 +98,13 @@ string thirdConstraint() {
     return formule;
 }
 
+// Constrainte a ajouter UNIQUEMENT lorsque le nombre de sommet est inexact pour rendre la formule insatisfiable.
+string NoTrianglesConstraint() {
+    string formule = "c\nc CONTRAINTE 4 : Le graphe doit avoir un nombre de sommet multiple de 3.\nc\n";
+    formule += "-1 0\n 1 0\n";
+    return formule;
+}
+
 
 int main(int argc, char const *argv[]){
     int n = orderG(); // Nombre de sommets du graphe
@@ -121,6 +131,10 @@ int main(int argc, char const *argv[]){
     file << firstConstraint();
     file << secondConstraint();
     file << thirdConstraint();
+
+    if(orderG()%3 != 0) {
+        file << NoTrianglesConstraint();
+    }
 
     for(int i = 0; i < n; i++) {
         delete [] X[i];
