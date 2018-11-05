@@ -7,5 +7,8 @@ Pour lancer le programme, lancer le script bash avec les commandes suivantes :
 
     $ cd code/
     $ ./triangle2SAT.sh
+	
+Il est possible de rajouter vos propres graphes en les ajoutant dans le dossier code/graphs/.
+Vos graphes doivent respecter le format existant (fichier C implémentant orderG(), sizeG() et are_adjacent(int,int)).
 
 Projet réalisé par Alfred Aboubacar SYLLA et Guillaume NEDELEC
