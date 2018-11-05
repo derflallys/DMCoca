@@ -33,7 +33,16 @@ int getNbClauses() {
                 if( (u != v && u != w && v != w) && (are_adjacent(u,v) != 0 && are_adjacent(v,w) != 0 && are_adjacent(w,u) != 0 ) ) {
                     nbclauses++;   
                 }
+                
             }
+        }
+    }
+    
+    for(int u=0; u < orderG(); u++) {
+        for(int v=0; v < orderG(); v++) {
+                if( (u != v && v != u) && (are_adjacent(u,v) != 0) ) {
+                    nbclauses++;
+                }
         }
     }
      if(orderG()%3 != 0) {
@@ -105,6 +114,22 @@ string NoTrianglesConstraint() {
     return formule;
 }
 
+string fifthConstraint() {
+    string formule = "c\nc CONTRAINTE 5 : Un sommet u est succeseur de v mais v ne peux pas etre successeur de u\nc\n";
+    for(int u=0; u < orderG(); u++) {
+        for(int v=0; v < orderG(); v++) {
+                if( (u != v ) && (are_adjacent(u,v) != 0) ) {
+                    std::ostringstream ss1;
+                    std::ostringstream ss2;
+                    ss1 << X[u][v];
+                    ss2 << X[v][u];
+                    formule += "-" + ss1.str() + " -" + ss2.str() + " 0\n";
+                }
+        }
+    }
+    return formule;
+}
+
 
 int main(int argc, char const *argv[]){
     int n = orderG(); // Nombre de sommets du graphe
@@ -131,6 +156,7 @@ int main(int argc, char const *argv[]){
     file << firstConstraint();
     file << secondConstraint();
     file << thirdConstraint();
+    file << fifthConstraint();
 
     if(orderG()%3 != 0) {
         file << NoTrianglesConstraint();
