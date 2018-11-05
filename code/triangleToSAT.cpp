@@ -114,8 +114,8 @@ string NoTrianglesConstraint() {
     return formule;
 }
 
-string fifthConstraint() {
-    string formule = "c\nc CONTRAINTE 5 : Un sommet u est succeseur de v mais v ne peux pas etre successeur de u\nc\n";
+string fourthConstraint() {
+    string formule = "c\nc CONTRAINTE 4 : Un sommet u est succeseur de v mais v ne peux pas etre successeur de u\nc\n";
     for(int u=0; u < orderG(); u++) {
         for(int v=0; v < orderG(); v++) {
                 if( (u != v ) && (are_adjacent(u,v) != 0) ) {
@@ -152,11 +152,11 @@ int main(int argc, char const *argv[]){
     // Création du fichier
     ofstream file("sat.cnf");
 
-    file << "p cnf " << orderG()*orderG()*2<< " " << getNbClauses() << endl;
+    file << "p cnf " << orderG()*(orderG()-1)<< " " << getNbClauses() << endl;
     file << firstConstraint();
     file << secondConstraint();
     file << thirdConstraint();
-    file << fifthConstraint();
+    file << fourthConstraint();
 
     if(orderG()%3 != 0) {
         file << NoTrianglesConstraint();
