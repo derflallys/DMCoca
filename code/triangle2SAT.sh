@@ -30,10 +30,12 @@ rm -f graph.c # Suppression de la copie du graphe
 
 #compilation de glucose
 #make clean -C glucose-syrup-4.1/simp/
-#make -C glucose-syrup-4.1/simp/
+make -C glucose-syrup-4.1/simp/
 
 # Lancer le solveur glucose
 ./glucose-syrup-4.1/simp/glucose sat.cnf > resultat.txt
 
 #Nettoyage des fichiers compilés
 make clean
+
+echo "Vous pouvez consulter le résulat dans le fichier resultat.txt."
